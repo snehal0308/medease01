@@ -199,8 +199,10 @@ def sms_reply():
 
 
     resp = MessagingResponse()
-  
-    resp.message(f"Hi! this a reminder to take your LOSARTAN 50 MILLIGRAM TABS, DISPENSE #30 \n TAKE ONE BY MOUTH DAILY IN THE MORNING FOR PRESSURE CONTROL")
+    scheduler = BackgroundScheduler()
+scheduler.add_job(func=check_appointments, trigger="interval", seconds=60)
+scheduler.start()
+    resp.message(f"Hi! this a reminder to take your {reminder[0]}")
     if msg == "yes": #based on incoming message, send different message
         resp.message(" pill confirmed!")
     elif msg == 'help'.lower():
